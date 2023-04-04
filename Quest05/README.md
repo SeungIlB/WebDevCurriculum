@@ -288,7 +288,8 @@ console.log(square.area()); // 121 (예상치 못한 값 출력) ```
 
       const square = new Square(10);
       console.log(square.area()); // 100
-      console.log(increaseShapeArea(square)); // 101 ```
+      console.log(increaseShapeArea(square)); // 101 
+      ```
 
   * 인터페이스 분리 원칙 (Interface Segregation Principle, ISP)
   클라이언트는 자신이 사용하지 않는 인터페이스에 의존하지 않아야 합니다. 즉, 인터페이스를 세분화하여 클라이언트가 필요로 하는 기능만 제공하도록 해야 합니다.
