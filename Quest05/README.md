@@ -160,76 +160,10 @@
   * 리스코프 치환 원칙 (Liskov Substitution Principle, LSP)
   서브 타입은 언제나 기반 타입으로 교체할 수 있어야 합니다. 즉, 상속 관계에 있는 클래스 간에는 기반 클래스의 인스턴스를 서브 클래스의 인스턴스로 대체할 수 있어야 합니다. 자식 클래스가 부모 클래스 역할을 할 수 있어야 함.
   
-  ```
-  //bad
-  class Rectangle {
-  constructor(width, height) {
-    this.width = width;
-    this.height = height;
-  }
-
-  setWidth(width) {
-    this.width = width;
-  }
-
-  setHeight(height) {
-    this.height = height;
-  }
-
-  getWidth() {
-    return this.width;
-  }
-
-  getHeight() {
-    return this.height;
-  }
-
-  area() {
-    return this.width * this.height;
-  }
-}
-
-  class Square extends Rectangle {
-    setWidth(width) {
-      this.width = width;
-      this.height = width;
-    }
-
-    setHeight(height) {
-      this.width = height;
-      this.height = height;
-    }
-  }
-
-  function increaseRectangleWidth(rectangle) {
-    rectangle.setWidth(rectangle.getWidth() + 1);
-  }
-
-  const rectangle = new Rectangle(10, 20);
-  console.log(rectangle.area()); // 200
-  increaseRectangleWidth(rectangle);
-  console.log(rectangle.area()); // 220
-
-  const square = new Square(10, 10);
-  console.log(square.area()); // 100
-  increaseRectangleWidth(square); // LSP 위반!
-  console.log(square.area()); // 121 (예상치 못한 값 출력)
-  ```
-위의 코드에서 Square 클래스는 Rectangle 클래스를 상속 받았습니다. 하지만 Square 클래스에서 setWidth()와 setHeight() 메서드를 오버라이딩하면서 width와 height를 항상 같게 설정하도록 구현했습니다. 이러한 구현 방식은 Square가 Rectangle의 자식 클래스인 것이지만 Rectangle과 동작이 다르기 때문에 LSP를 위반하게 됩니다.
-
-
-```
-//good
-javascript
-class Shape {
-  area() {
-    throw new Error("Area method should be implemented");
-  }
-}
-
-  class Rectangle extends Shape {
+    ```
+    //bad
+    class Rectangle {
     constructor(width, height) {
-      super();
       this.width = width;
       this.height = height;
     }
@@ -255,40 +189,106 @@ class Shape {
     }
   }
 
-  class Square extends Shape {
-    constructor(length) {
-      super();
-      this.length = length;
+    class Square extends Rectangle {
+      setWidth(width) {
+        this.width = width;
+        this.height = width;
+      }
+
+      setHeight(height) {
+        this.width = height;
+        this.height = height;
+      }
     }
 
-    setLength(length) {
-      this.length = length;
+    function increaseRectangleWidth(rectangle) {
+      rectangle.setWidth(rectangle.getWidth() + 1);
     }
 
-    getLength() {
-      return this.length;
-    }
+    const rectangle = new Rectangle(10, 20);
+    console.log(rectangle.area()); // 200
+    increaseRectangleWidth(rectangle);
+    console.log(rectangle.area()); // 220
 
-    area() {
-      return this.length * this.length;
-    }
-  }
+    const square = new Square(10, 10);
+    console.log(square.area()); // 100
+    increaseRectangleWidth(square); // LSP 위반!
+    console.log(square.area()); // 121 (예상치 못한 값 출력)
+    ```
+위의 코드에서 Square 클래스는 Rectangle 클래스를 상속 받았습니다. 하지만 Square 클래스에서 setWidth()와 setHeight() 메서드를 오버라이딩하면서 width와 height를 항상 같게 설정하도록 구현했습니다. 이러한 구현 방식은 Square가 Rectangle의 자식 클래스인 것이지만 Rectangle과 동작이 다르기 때문에 LSP를 위반하게 됩니다.
 
-  function increaseShapeArea(shape) {
-    // shape.area()가 제대로 구현되어 있다는 가정 하에
-    const currentArea = shape.area();
-    const newArea = currentArea + 1;
-    return newArea;
-  }
 
-  const rectangle = new Rectangle(10, 20);
-  console.log(rectangle.area()); // 200
-  console.log(increaseShapeArea(rectangle)); // 201
-
-  const square = new Square(10);
-  console.log(square.area()); // 100
-  console.log(increaseShapeArea(square)); // 101
   ```
+  //good
+  javascript
+  class Shape {
+    area() {
+      throw new Error("Area method should be implemented");
+    }
+  }
+
+    class Rectangle extends Shape {
+      constructor(width, height) {
+        super();
+        this.width = width;
+        this.height = height;
+      }
+
+      setWidth(width) {
+        this.width = width;
+      }
+
+      setHeight(height) {
+        this.height = height;
+      }
+
+      getWidth() {
+        return this.width;
+      }
+
+      getHeight() {
+        return this.height;
+      }
+
+      area() {
+        return this.width * this.height;
+      }
+    }
+
+    class Square extends Shape {
+      constructor(length) {
+        super();
+        this.length = length;
+      }
+
+      setLength(length) {
+        this.length = length;
+      }
+
+      getLength() {
+        return this.length;
+      }
+
+      area() {
+        return this.length * this.length;
+      }
+    }
+
+    function increaseShapeArea(shape) {
+      // shape.area()가 제대로 구현되어 있다는 가정 하에
+      const currentArea = shape.area();
+      const newArea = currentArea + 1;
+      return newArea;
+    }
+
+    const rectangle = new Rectangle(10, 20);
+    console.log(rectangle.area()); // 200
+    console.log(increaseShapeArea(rectangle)); // 201
+
+    const square = new Square(10);
+    console.log(square.area()); // 100
+    console.log(increaseShapeArea(square)); // 101
+    ```
 
   * 인터페이스 분리 원칙 (Interface Segregation Principle, ISP)
   클라이언트는 자신이 사용하지 않는 인터페이스에 의존하지 않아야 합니다. 즉, 인터페이스를 세분화하여 클라이언트가 필요로 하는 기능만 제공하도록 해야 합니다.
