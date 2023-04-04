@@ -156,66 +156,65 @@
     }
   }
   ```
+
   위 코드에서 AreaCalculator 클래스가 도형의 종류에 따라 계산 방식을 다르게 구현하고 있습니다. 이는 OCP 원칙에 위배됩니다. 이를 해결하기 위해 도형들은 Shape 클래스를 상속받아서 각자의 면적을 계산하는 getArea() 메서드를 구현하도록 하고, AreaCalculator 클래스는 Shape 인터페이스를 사용하여 다형성을 활용하여 계산하도록 수정하였습니다.
   * 리스코프 치환 원칙 (Liskov Substitution Principle, LSP)
   서브 타입은 언제나 기반 타입으로 교체할 수 있어야 합니다. 즉, 상속 관계에 있는 클래스 간에는 기반 클래스의 인스턴스를 서브 클래스의 인스턴스로 대체할 수 있어야 합니다. 자식 클래스가 부모 클래스 역할을 할 수 있어야 함.
   
-    ```
-    //bad
-    class Rectangle {
-    constructor(width, height) {
-      this.width = width;
-      this.height = height;
-    }
-
-    setWidth(width) {
-      this.width = width;
-    }
-
-    setHeight(height) {
-      this.height = height;
-    }
-
-    getWidth() {
-      return this.width;
-    }
-
-    getHeight() {
-      return this.height;
-    }
-
-    area() {
-      return this.width * this.height;
-    }
+  ```
+  class Rectangle {
+  constructor(width, height) {
+    this.width = width;
+    this.height = height;
   }
 
-    class Square extends Rectangle {
-      setWidth(width) {
-        this.width = width;
-        this.height = width;
-      }
+  setWidth(width) {
+    this.width = width;
+  }
 
-      setHeight(height) {
-        this.width = height;
-        this.height = height;
-      }
-    }
+  setHeight(height) {
+    this.height = height;
+  }
 
-    function increaseRectangleWidth(rectangle) {
-      rectangle.setWidth(rectangle.getWidth() + 1);
-    }
+  getWidth() {
+    return this.width;
+  }
 
-    const rectangle = new Rectangle(10, 20);
-    console.log(rectangle.area()); // 200
-    increaseRectangleWidth(rectangle);
-    console.log(rectangle.area()); // 220
+  getHeight() {
+    return this.height;
+  }
 
-    const square = new Square(10, 10);
-    console.log(square.area()); // 100
-    increaseRectangleWidth(square); // LSP 위반!
-    console.log(square.area()); // 121 (예상치 못한 값 출력)
+  area() {
+    return this.width * this.height;
+  }
+}
 
-    ```
+class Square extends Rectangle {
+  setWidth(width) {
+    this.width = width;
+    this.height = width;
+  }
+
+  setHeight(height) {
+    this.width = height;
+    this.height = height;
+  }
+}
+
+function increaseRectangleWidth(rectangle) {
+  rectangle.setWidth(rectangle.getWidth() + 1);
+}
+
+const rectangle = new Rectangle(10, 20);
+console.log(rectangle.area()); // 200
+increaseRectangleWidth(rectangle);
+console.log(rectangle.area()); // 220
+
+const square = new Square(10, 10);
+console.log(square.area()); // 100
+increaseRectangleWidth(square); // LSP 위반!
+console.log(square.area()); // 121 (예상치 못한 값 출력) ```
+    
 
 *  위의 코드에서 Square 클래스는 Rectangle 클래스를 상속 받았습니다. 하지만 Square 클래스에서 setWidth()와 setHeight() 메서드를 오버라이딩하면서 width와 height를 항상 같게 설정하도록 구현했습니다. 이러한 구현 방식은 Square가 Rectangle의 자식 클래스인 것이지만 Rectangle과 동작이 다르기 때문에 LSP를 위반하게 됩니다.
 
