@@ -254,42 +254,41 @@ console.log(square.area()); // 121 (예상치 못한 값 출력) ```
       area() {
         return this.width * this.height;
       }
-    }
-
-    class Square extends Shape {
-      constructor(length) {
-        super();
-        this.length = length;
       }
 
-      setLength(length) {
-        this.length = length;
+      class Square extends Shape {
+        constructor(length) {
+          super();
+          this.length = length;
+        }
+
+        setLength(length) {
+          this.length = length;
+        }
+
+        getLength() {
+          return this.length;
+        }
+
+        area() {
+          return this.length * this.length;
+        }
       }
 
-      getLength() {
-        return this.length;
+      function increaseShapeArea(shape) {
+        // shape.area()가 제대로 구현되어 있다는 가정 하에
+        const currentArea = shape.area();
+        const newArea = currentArea + 1;
+        return newArea;
       }
 
-      area() {
-        return this.length * this.length;
-      }
-    }
+      const rectangle = new Rectangle(10, 20);
+      console.log(rectangle.area()); // 200
+      console.log(increaseShapeArea(rectangle)); // 201
 
-    function increaseShapeArea(shape) {
-      // shape.area()가 제대로 구현되어 있다는 가정 하에
-      const currentArea = shape.area();
-      const newArea = currentArea + 1;
-      return newArea;
-    }
-
-    const rectangle = new Rectangle(10, 20);
-    console.log(rectangle.area()); // 200
-    console.log(increaseShapeArea(rectangle)); // 201
-
-    const square = new Square(10);
-    console.log(square.area()); // 100
-    console.log(increaseShapeArea(square)); // 101
-    ```
+      const square = new Square(10);
+      console.log(square.area()); // 100
+      console.log(increaseShapeArea(square)); // 101 ```
 
   * 인터페이스 분리 원칙 (Interface Segregation Principle, ISP)
   클라이언트는 자신이 사용하지 않는 인터페이스에 의존하지 않아야 합니다. 즉, 인터페이스를 세분화하여 클라이언트가 필요로 하는 기능만 제공하도록 해야 합니다.
