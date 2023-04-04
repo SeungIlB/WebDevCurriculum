@@ -289,6 +289,7 @@ console.log(square.area()); // 121 (예상치 못한 값 출력) ```
       const square = new Square(10);
       console.log(square.area()); // 100
       console.log(increaseShapeArea(square)); // 101 
+      
       ```
 
   * 인터페이스 분리 원칙 (Interface Segregation Principle, ISP)
