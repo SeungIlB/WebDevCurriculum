@@ -289,13 +289,13 @@ console.log(square.area()); // 121 (예상치 못한 값 출력) ```
       const square = new Square(10);
       console.log(square.area()); // 100
       console.log(increaseShapeArea(square)); // 101 
-      
-      ```
+
+```
 
   * 인터페이스 분리 원칙 (Interface Segregation Principle, ISP)
   클라이언트는 자신이 사용하지 않는 인터페이스에 의존하지 않아야 합니다. 즉, 인터페이스를 세분화하여 클라이언트가 필요로 하는 기능만 제공하도록 해야 합니다.
   
-    ```
+  ```
     // bad
     interface SmartPrinter {
     print();
@@ -395,13 +395,13 @@ class UserManager {
   }
 }
 
-const user1 = new User('John');
-const user2 = new User('Jane');
-const userManager = new UserManager();
-userManager.addUser(user1);
-userManager.addUser(user2);
-userManager.greetAllUsers();
-```
+  const user1 = new User('John');
+  const user2 = new User('Jane');
+  const userManager = new UserManager();
+  userManager.addUser(user1);
+  userManager.addUser(user2);
+  userManager.greetAllUsers();
+  ```
 위 코드에서 UserManager 클래스는 User 클래스에 의존하고 있습니다. UserManager 클래스는 User 클래스의 인스턴스를 생성하여 사용하고 있으며, 이를 통해 UserManager 클래스와 User 클래스는 긴밀한 결합을 가지게 됩니다. 이로 인해 User 클래스가 수정되면 UserManager 클래스도 수정해야 하므로 유지보수가 어려워집니다.
 
 다음은 DIP를 적용한 코드 예시입니다.
