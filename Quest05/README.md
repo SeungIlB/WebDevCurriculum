@@ -214,8 +214,10 @@
     console.log(square.area()); // 100
     increaseRectangleWidth(square); // LSP 위반!
     console.log(square.area()); // 121 (예상치 못한 값 출력)
+    
     ```
-위의 코드에서 Square 클래스는 Rectangle 클래스를 상속 받았습니다. 하지만 Square 클래스에서 setWidth()와 setHeight() 메서드를 오버라이딩하면서 width와 height를 항상 같게 설정하도록 구현했습니다. 이러한 구현 방식은 Square가 Rectangle의 자식 클래스인 것이지만 Rectangle과 동작이 다르기 때문에 LSP를 위반하게 됩니다.
+
+  위의 코드에서 Square 클래스는 Rectangle 클래스를 상속 받았습니다. 하지만 Square 클래스에서 setWidth()와 setHeight() 메서드를 오버라이딩하면서 width와 height를 항상 같게 설정하도록 구현했습니다. 이러한 구현 방식은 Square가 Rectangle의 자식 클래스인 것이지만 Rectangle과 동작이 다르기 때문에 LSP를 위반하게 됩니다.
 
 
   ```
