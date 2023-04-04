@@ -189,32 +189,32 @@
   }
 }
 
-class Square extends Rectangle {
-  setWidth(width) {
-    this.width = width;
-    this.height = width;
+  class Square extends Rectangle {
+    setWidth(width) {
+      this.width = width;
+      this.height = width;
+    }
+
+    setHeight(height) {
+      this.width = height;
+      this.height = height;
+    }
   }
 
-  setHeight(height) {
-    this.width = height;
-    this.height = height;
+  function increaseRectangleWidth(rectangle) {
+    rectangle.setWidth(rectangle.getWidth() + 1);
   }
-}
 
-function increaseRectangleWidth(rectangle) {
-  rectangle.setWidth(rectangle.getWidth() + 1);
-}
+  const rectangle = new Rectangle(10, 20);
+  console.log(rectangle.area()); // 200
+  increaseRectangleWidth(rectangle);
+  console.log(rectangle.area()); // 220
 
-const rectangle = new Rectangle(10, 20);
-console.log(rectangle.area()); // 200
-increaseRectangleWidth(rectangle);
-console.log(rectangle.area()); // 220
-
-const square = new Square(10, 10);
-console.log(square.area()); // 100
-increaseRectangleWidth(square); // LSP 위반!
-console.log(square.area()); // 121 (예상치 못한 값 출력)
-```
+  const square = new Square(10, 10);
+  console.log(square.area()); // 100
+  increaseRectangleWidth(square); // LSP 위반!
+  console.log(square.area()); // 121 (예상치 못한 값 출력)
+  ```
 위의 코드에서 Square 클래스는 Rectangle 클래스를 상속 받았습니다. 하지만 Square 클래스에서 setWidth()와 setHeight() 메서드를 오버라이딩하면서 width와 height를 항상 같게 설정하도록 구현했습니다. 이러한 구현 방식은 Square가 Rectangle의 자식 클래스인 것이지만 Rectangle과 동작이 다르기 때문에 LSP를 위반하게 됩니다.
 
 
@@ -227,91 +227,93 @@ class Shape {
   }
 }
 
-class Rectangle extends Shape {
-  constructor(width, height) {
-    super();
-    this.width = width;
-    this.height = height;
+  class Rectangle extends Shape {
+    constructor(width, height) {
+      super();
+      this.width = width;
+      this.height = height;
+    }
+
+    setWidth(width) {
+      this.width = width;
+    }
+
+    setHeight(height) {
+      this.height = height;
+    }
+
+    getWidth() {
+      return this.width;
+    }
+
+    getHeight() {
+      return this.height;
+    }
+
+    area() {
+      return this.width * this.height;
+    }
   }
 
-  setWidth(width) {
-    this.width = width;
+  class Square extends Shape {
+    constructor(length) {
+      super();
+      this.length = length;
+    }
+
+    setLength(length) {
+      this.length = length;
+    }
+
+    getLength() {
+      return this.length;
+    }
+
+    area() {
+      return this.length * this.length;
+    }
   }
 
-  setHeight(height) {
-    this.height = height;
+  function increaseShapeArea(shape) {
+    // shape.area()가 제대로 구현되어 있다는 가정 하에
+    const currentArea = shape.area();
+    const newArea = currentArea + 1;
+    return newArea;
   }
 
-  getWidth() {
-    return this.width;
-  }
+  const rectangle = new Rectangle(10, 20);
+  console.log(rectangle.area()); // 200
+  console.log(increaseShapeArea(rectangle)); // 201
 
-  getHeight() {
-    return this.height;
-  }
+  const square = new Square(10);
+  console.log(square.area()); // 100
+  console.log(increaseShapeArea(square)); // 101
+  ```
 
-  area() {
-    return this.width * this.height;
-  }
-}
-
-class Square extends Shape {
-  constructor(length) {
-    super();
-    this.length = length;
-  }
-
-  setLength(length) {
-    this.length = length;
-  }
-
-  getLength() {
-    return this.length;
-  }
-
-  area() {
-    return this.length * this.length;
-  }
-}
-
-function increaseShapeArea(shape) {
-  // shape.area()가 제대로 구현되어 있다는 가정 하에
-  const currentArea = shape.area();
-  const newArea = currentArea + 1;
-  return newArea;
-}
-
-const rectangle = new Rectangle(10, 20);
-console.log(rectangle.area()); // 200
-console.log(increaseShapeArea(rectangle)); // 201
-
-const square = new Square(10);
-console.log(square.area()); // 100
-console.log(increaseShapeArea(square)); // 101
-```
   * 인터페이스 분리 원칙 (Interface Segregation Principle, ISP)
   클라이언트는 자신이 사용하지 않는 인터페이스에 의존하지 않아야 합니다. 즉, 인터페이스를 세분화하여 클라이언트가 필요로 하는 기능만 제공하도록 해야 합니다.
-  ```
-  // bad
-  interface SmartPrinter {
-  print();
-  fax();
-  scan();
-  }
-
-  class AllInOnePrinter implements SmartPrinter {
-    print() {
-      // ...
-    }  
-    
-    fax() {
-      // ...
+  
+    ```
+    // bad
+    interface SmartPrinter {
+    print();
+    fax();
+    scan();
     }
 
-    scan() {
-      // ...
+    class AllInOnePrinter implements SmartPrinter {
+      print() {
+        // ...
+      }  
+      
+      fax() {
+        // ...
+      }
+
+      scan() {
+        // ...
+      }
     }
-  }
 
   class EconomicPrinter implements SmartPrinter {
     print() {
@@ -326,22 +328,22 @@ console.log(increaseShapeArea(square)); // 101
       throw new Error('Scan not supported.');
     }
   }
-  ```
-  ```
-  //good
-  interface Printer {
-  print();
-  }
+    ```
+    ```
+    //good
+    interface Printer {
+    print();
+    }
 
-  interface Fax {
-    fax();
-  }
+    interface Fax {
+      fax();
+    }
 
-  interface Scanner {
-    scan();
-  }
+    interface Scanner {
+      scan();
+    }
 
-  class AllInOnePrinter implements Printer, Fax, Scanner {
+    class AllInOnePrinter implements Printer, Fax, Scanner {
     print() {
       // ...
     }  
@@ -401,59 +403,60 @@ userManager.greetAllUsers();
 위 코드에서 UserManager 클래스는 User 클래스에 의존하고 있습니다. UserManager 클래스는 User 클래스의 인스턴스를 생성하여 사용하고 있으며, 이를 통해 UserManager 클래스와 User 클래스는 긴밀한 결합을 가지게 됩니다. 이로 인해 User 클래스가 수정되면 UserManager 클래스도 수정해야 하므로 유지보수가 어려워집니다.
 
 다음은 DIP를 적용한 코드 예시입니다.
-```
-//good
-javascript
+  ```
+  //good
+  javascript
 
-class User {
-  constructor(name) {
-    this.name = name;
-  }
+  class User {
+    constructor(name) {
+      this.name = name;
+    }
 
-  greet() {
-    console.log(`Hello, ${this.name}!`);
-  }
-}
-
-class UserManager {
-  constructor(userRepository) {
-    this.userRepository = userRepository;
-  }
-
-  addUser(user) {
-    this.userRepository.save(user);
-  }
-
-  greetAllUsers() {
-    const users = this.userRepository.getAllUsers();
-    for (let user of users) {
-      user.greet();
+    greet() {
+      console.log(`Hello, ${this.name}!`);
     }
   }
-}
 
-class UserRepository {
-  constructor() {
-    this.users = [];
+  class UserManager {
+    constructor(userRepository) {
+      this.userRepository = userRepository;
+    }
+
+    addUser(user) {
+      this.userRepository.save(user);
+    }
+
+    greetAllUsers() {
+      const users = this.userRepository.getAllUsers();
+      for (let user of users) {
+        user.greet();
+      }
+    }
   }
 
-  save(user) {
-    this.users.push(user);
+  class UserRepository {
+    constructor() {
+      this.users = [];
+    }
+
+    save(user) {
+      this.users.push(user);
+    }
+
+    getAllUsers() {
+      return this.users;
+    }
   }
 
-  getAllUsers() {
-    return this.users;
-  }
-}
+  const user1 = new User('John');
+  const user2 = new User('Jane');
+  const userRepository = new UserRepository();
+  const userManager = new UserManager(userRepository);
+  userManager.addUser(user1);
+  userManager.addUser(user2);
+  userManager.greetAllUsers();
+  ```
 
-const user1 = new User('John');
-const user2 = new User('Jane');
-const userRepository = new UserRepository();
-const userManager = new UserManager(userRepository);
-userManager.addUser(user1);
-userManager.addUser(user2);
-userManager.greetAllUsers();
-```
 * 로컬 스토리지란 무엇인가요? 로컬 스토리지의 내용을 개발자 도구를 이용해 확인하려면 어떻게 해야 할까요?
   * 로컬 스토리지는 브라우저에서 제공하는 웹 스토리지 기술 중 하나로, 웹 애플리케이션이 사용자 브라우저 내부에 데이터를 저장하고 관리할 수 있도록 해줍니다. 이를 통해 사용자가 애플리케이션을 이용하는 동안에도 데이터를 유지하거나, 필요한 경우 데이터를 로드하여 더 나은 사용자 경험을 제공할 수 있습니다.
 
