@@ -31,7 +31,9 @@
 			<div class="square"></div>
 			<div class="square"></div>
 		</section>
-
+		
+		
+		
 		<script>
 			let row1Squares = document.querySelectorAll('.row1 .square');
 			for(let node of row1Squares) {
@@ -42,6 +44,27 @@
 			for(let node of row2Squares) {
 				/* TODO: node 변수를 어떻게 조작해야 할까요? */
 			}
+			
+			var LineInput = prompt("줄 수를입력하시오.");
+			var result = "";
+
+            for (var i = 1; i < LineInput*2; i+=2) {
+               for (var j = 1; j < ((LineInput * 2) - i) / 2 ; j++) {
+                  result += " ";
+               }
+               for( var l=1; l<=i;l++){
+                  result += "*";
+               }
+               for (var k = 1; k < ((LineInput * 2) - i) / 2; k++) {
+                  result += " ";
+               }
+               result += "\n";
+            }
+            console.log(result);
+
 		</script>
 	</body>
+	
+	
 </html>
+
