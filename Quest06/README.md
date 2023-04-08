@@ -70,8 +70,11 @@ ISP(Internet Service Provider)의 DNS서버가 호스팅하고 있는 서버의 
 
 ## Quest
 * tracert(Windows가 아닌 경우 traceroute) 명령을 통해 www.google.com 까지 가는 경로를 찾아 보세요.
+    * 해봄
   * 어떤 IP주소들이 있나요?
-  * 그 IP주소들은 어디에 위치해 있나요?
+    * 많음.진짜 해봄
+  * 그 IP주소들은 어디에 위치해 있나요? 어케앎? 
+    * 뭐 깔아야되서 안함 필요시 하겠음
 * Wireshark를 통해 www.google.com 으로 요청을 날렸을 떄 어떤 TCP 패킷이 오가는지 확인해 보세요
   * TCP 패킷을 주고받는 과정은 어떻게 되나요?
   * 각각의 패킷에 어떤 정보들이 담겨 있나요?
